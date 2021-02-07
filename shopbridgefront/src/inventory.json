@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "name": "Item1",
+        "img": "https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+        "description": "Item in inventory",
+        "price": 20,"currencyUnit":"$"
+    },
+    {
+        "id": 2,
+        "name": "Item2",
+        "img": "https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+        "description": "Item in inventory",
+        "price": 20,"currencyUnit":"$"
+    },
+    {
+        "id": 3,
+        "name": "Item3",
+        "img": "https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+        "description": "Item in inventory",
+        "price": 20,"currencyUnit":"$"
+    },
+    {
+        "id": 4,
+        "name": "Item4",
+        "img": "https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+        "description": "Item in inventory",
+        "price": 20,"currencyUnit":"$"
+    },
+    {
+        "id": 5,
+        "name": "Item5",
+        "img": "https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+        "description": "Item in inventory",
+        "price": 20,"currencyUnit":"$"
+    }
+    
+]
