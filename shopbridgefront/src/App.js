@@ -10,6 +10,7 @@ import {
   useHistory,
   useParams,
 } from "react-router-dom";
+import axios from "axios";
 
 function App() {
   return (
@@ -37,7 +38,7 @@ function App() {
 const List = () => {
   const history = useHistory();
   const [inventoryList, setInventoryList] = useState(
-    defaultInventoryList.default
+    []
   );
   const [addModal, setAddModal] = useState(false);
   const [currentItem, setCurrentItem] = useState({});
@@ -45,25 +46,66 @@ const List = () => {
     setAddModal("true");
   };
   const modalOff = () => setAddModal("false");
-  const [itemsList, addItems] = useState(inventoryList);
+  const [itemsList, addItems] = useState([]);
   const staticImageUrl =
     "https://images.unsplash.com/photo-1598032895397-b9472444bf93";
-
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/inventorys")
+      .then(response => {
+        console.log(response)
+        setInventoryList(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [])
+  const deleteItem = (id) => {
+    axios.delete(`http://localhost:8000/api/inventorys/${id}`)
+      .then(response => {
+        let inventorylist = [...inventoryList]
+        inventorylist = inventorylist.filter(il => il.id != id)
+        setInventoryList([...inventorylist]);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
   const handleAddItems = (e) => {
     e.preventDefault();
     setAddModal(false);
-    if (currentItem.id) {
-      let itemslist = [...itemsList];
-      itemslist = itemslist.map((il) => {
-        if (il.id == currentItem.id) {
-          il = { ...currentItem };
-        }
-        return { ...il };
-      });
-      addItems([...itemslist]);
-    } else {
-      addItems([...itemsList, { ...currentItem, id: itemsList.length + 1 }]);
-    }
+    // if (currentItem.id) {
+    //   let itemslist = [...itemsList];
+    //   itemslist = itemslist.map((il) => {
+    //     if (il.id == currentItem.id) {
+    //       il = { ...currentItem };
+    //     }
+    //     return { ...il };
+    //   });
+    //   addItems([...itemslist]);
+    // } else {
+    if (currentItem.id)
+      axios.put(`http://localhost:8000/api/inventorys/${currentItem.id}`, currentItem)
+        .then(response => {
+          let inventorylist = [...inventoryList]
+          inventorylist = inventorylist.map(il => {
+            if (il.id == response.data.id)
+              il = { ...response.data }
+            return { ...il }
+          })
+          setInventoryList([...inventorylist]);
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    else
+      axios.post("http://localhost:8000/api/inventorys", currentItem)
+        .then(response => {
+          setInventoryList([...inventoryList, response.data]);
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    // }
     setCurrentItem({});
   };
   return (
@@ -80,7 +122,7 @@ const List = () => {
         </button>
       </div>
       <div className={`container row`} id="wrapper">
-        {itemsList?.map((il) => {
+        {inventoryList?.map((il) => {
           return (
             <div
               className="col-4 pointer"
@@ -92,13 +134,23 @@ const List = () => {
                 <div className="row m-0">
                   <div className="col col-12 text-right">
                     <a
-                      onClick={(e) => {
+                    className="mr-1"
+                    onClick={(e) => {
                         e.stopPropagation();
                         setCurrentItem(il);
                         setAddModal(true);
                       }}
                     >
                       Edit
+                    </a>
+                    <a
+                    className="ml-1"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteItem(il.id)
+                      }}
+                    >
+                      Delete
                     </a>
                   </div>
                 </div>
@@ -255,9 +307,15 @@ const IndividualItem = () => {
   let { itemId } = useParams();
 
   useEffect(() => {
-    setIndividualItem(
-      defaultInventoryList.default.filter((dil) => dil.id == itemId)[0]
-    );
+    axios.get(`http://localhost:8000/api/inventorys/${itemId}`)
+      .then(response => {
+        setIndividualItem(
+          response.data
+        );
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }, []);
   return individualItem ? (
     <div>
@@ -277,12 +335,12 @@ const IndividualItem = () => {
         </strong>
       </div>
       <div>
-        <img src={individualItem.img} className="indi-img" />
+        <img src="https://images.unsplash.com/photo-1598032895397-b9472444bf93" className="indi-img" />
       </div>
     </div>
   ) : (
-    <></>
-  );
+      <></>
+    );
 };
 
 export default App;
