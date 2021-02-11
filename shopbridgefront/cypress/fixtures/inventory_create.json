@@ -1,0 +1,7 @@
+{
+    "id": 6,
+    "name": "product3",
+    "img": "https://images.unsplash.com/photo-1598032895397-b9472444bf93",
+    "description": "Item in inventory",
+    "price": 20,"currencyUnit":"$"
+}

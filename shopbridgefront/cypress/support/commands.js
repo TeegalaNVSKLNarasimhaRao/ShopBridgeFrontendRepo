@@ -28,9 +28,9 @@ Cypress.Commands.add("invokeFixtures", () => {
     // sets up cy.server, so cypress knows to prepare network responses
     cy.server();
     // this is where we tell cypress to intercept certain XHR calls, and to stub in our fixture instead
-    cy.route("GET", `**/api/inventorys**`, "fixture:inventorys").as("inventory_request");
-    cy.route("GET", `**/api/inventorys/${id}`, "fixture:inventory_detail").as("inventory_detail_request");
+    cy.route("GET", `**/api/inventorys`, "fixture:inventorys").as("inventory_request");
+    cy.route("GET", `**/api/inventorys/1`, "fixture:inventory_detail").as("inventory_detail_request");
     cy.route("POST", `**/api/inventorys`, "fixture:inventory_create").as("inventory_create_request");
-    cy.route("PUT", `**/api/inventorys/${id}`, "fixture:inventory_edit").as("inventory_edit_request");
-    cy.route("DELETE", `**/api/inventorys/${id}`, "fixture:inventory_delete").as("inventory_delete_request");
+    cy.route("PUT", `**/api/inventorys/1`, "fixture:inventory_edit").as("inventory_edit_request");
+    cy.route("DELETE", `**/api/inventorys/1`, "fixture:inventory_delete").as("inventory_delete_request");
 });

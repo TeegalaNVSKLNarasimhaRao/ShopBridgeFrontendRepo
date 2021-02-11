@@ -112,7 +112,7 @@ const List = () => {
     <div className={`container-fluid ${addModal ? "modal-open" : ""}`}>
       <div className="row justify-content-end mr-5 mt-2 mb-2">
         <button
-          class="btn btn-primary"
+          className="btn btn-primary"
           onClick={() => {
             setAddModal(true);
             setCurrentItem({});
@@ -134,20 +134,23 @@ const List = () => {
                 <div className="row m-0">
                   <div className="col col-12 text-right">
                     <a
-                    className="mr-1"
-                    onClick={(e) => {
+                      className="mr-1"
+                      onClick={(e) => {
                         e.stopPropagation();
                         setCurrentItem(il);
-                        setAddModal(true);
-                      }}
+                        setAddModal(true);                      
+                        }}
                     >
                       Edit
                     </a>
                     <a
-                    className="ml-1"
+                      className="ml-1"
                       onClick={(e) => {
                         e.stopPropagation();
-                        deleteItem(il.id)
+                        var result = window.confirm("Are you Sure you want to delete?");
+                        if (result) {
+                          deleteItem(il.id);
+                        }
                       }}
                     >
                       Delete
@@ -204,7 +207,7 @@ const List = () => {
             </div>
             <div className="modal-body">
               <form onSubmit={handleAddItems}>
-                <div class="form-group">
+                <div className="form-group">
                   <label for="name">Name:</label>
                   <input
                     id="name"
@@ -221,7 +224,7 @@ const List = () => {
                     className="form-control"
                   ></input>
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                   <label for="description">Description:</label>
                   <textarea
                     id="description"
@@ -240,10 +243,10 @@ const List = () => {
                     className="form-control"
                   ></textarea>
                 </div>
-                <div class="form-group">
+                <div className="form-group">
                   <label for="price">Price:</label>
-                  <div class="input-group mb-3">
-                    <div class="input-group-prepend"></div>
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend"></div>
                     <input
                       type="number"
                       id="price"
@@ -262,12 +265,12 @@ const List = () => {
                       required
                       className="form-control"
                     ></input>
-                    <div class="input-group-append">
-                      <span class="input-group-text">$</span>
+                    <div className="input-group-append">
+                      <span className="input-group-text">$</span>
                     </div>
                   </div>
                 </div>
-                {/* <div class="form-group">
+                {/* <div className="form-group">
                   <label for="price">Price:</label><br></br>
                  <div className="d-flex"> <input
                     type="number"
@@ -286,7 +289,7 @@ const List = () => {
                     className="form-control"
                   ></input>{currentItem.currenyUnit?currentItem.currenyUnit:"$"}</div>
                 </div> */}
-                <button type="submit" class="btn btn-primary btn-block">
+                <button type="submit" className="btn btn-primary btn-block">
                   {currentItem.id ? "Update" : "Add"} Item
                 </button>
               </form>
